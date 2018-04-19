@@ -100,7 +100,7 @@ class SearchForm extends Component{
 		                      	Date Published : {article.pub_date}
 		                      </p>
 		                   </Link>
-		                   <SaveBtn onClick={() => this.saveBook(article._id)} />
+		                   <SaveBtn onClick={() => this.saveArticle(article._id)} />
 		                  </ListItem>
 		                ))}
 		              </List>
