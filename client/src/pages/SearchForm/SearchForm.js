@@ -42,16 +42,14 @@ class SearchForm extends Component{
 	        .catch(err => console.log(err));
 	}
 
-	  saveBook = id => {
-	    API.saveBook(id)
-	      .then(res => this.loadBooks())
+	  saveArticle = id => {
+	    API.saveArticle(id)
+	      .then(res => console.log("saved"))
+
+	      	// this.loadArticles()
+	      	
 	      .catch(err => console.log(err));
 	  };
-
-	saveBook(){
-		console.log("saving");
-	}
-
 
 	render(){
 		return (
