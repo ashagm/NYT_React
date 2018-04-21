@@ -47,6 +47,7 @@ class SearchForm extends Component{
 
 	saveArticle = id => {
 	  	const articleById = this.state.articles.find((article) => article._id === id);
+	    
 	    API.saveArticle(
 	    	{	headline: articleById.headline.main,
 		        url: articleById.web_url,
@@ -55,8 +56,9 @@ class SearchForm extends Component{
 		   	)
 	      .then(res => 
 	      	{
-	      		console.log("saved", res);
+	      		console.log("Saved!!", res);
 	      		this.setState({ savedArticles: res.data });
+	      		console.log(this.state.saveArticles);
 	      	})	      	
 	      .catch(err => console.log(err));
 	};
