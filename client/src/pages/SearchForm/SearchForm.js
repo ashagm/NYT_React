@@ -25,15 +25,16 @@ class SearchForm extends Component{
 
 	handleFormSubmit = event => {
 		event.preventDefault();
-	      API.getArticles({
+	      API.searchArticles({
 	        searchTerm: this.state.searchTerm,
 	        startYear: this.state.startYear,
 	        endYear: this.state.endYear
 	      })
 	        .then(res => {
 	        	console.log(res);
-	        	var articlesArr = this.state.articles.concat(res.data.response.docs);
-				this.setState({ articles: articlesArr })
+				this.setState({ articles: res.data })
+	        	// var articlesArr = this.state.articles.concat(res.data.response.docs);
+				// this.setState({ articles: articlesArr })
 	        	// this.setState({ articles: res.data.response.docs })
 	        	// this.state.articles.push(res.data); 
 	        	console.log("Articles", this.state.articles);      	
@@ -42,12 +43,10 @@ class SearchForm extends Component{
 	        .catch(err => console.log(err));
 	}
 
-	  saveArticle = id => {
-	    API.saveArticle(id)
-	      .then(res => console.log("saved"))
-
-	      	// this.loadArticles()
-	      	
+	  saveArticle = props => {
+	  	console.log("props", props);
+	    API.saveArticle(props)
+	      .then(res => console.log("saved", res))	      	
 	      .catch(err => console.log(err));
 	  };
 
@@ -100,7 +99,16 @@ class SearchForm extends Component{
 		                      	Date Published : {article.pub_date}
 		                      </p>
 		                   </Link>
-		                   <SaveBtn onClick={() => this.saveArticle(article._id)} />
+		                   <SaveBtn 
+		                   onClick={() => this.saveArticle( 	
+		                   	{
+			                   	"id" : article._id,
+			                   	"key": article._id,
+			                   	"title" : article.headline.main,
+			                   	"url" :article.web_url,
+			                   	"date" : article.pub_date
+		                   	}
+		                   )} />
 		                  </ListItem>
 		                ))}
 		              </List>

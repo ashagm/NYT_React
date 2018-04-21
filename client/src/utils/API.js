@@ -15,12 +15,25 @@ export default {
     	});
   },
 
-    // Deletes the book with the given id
+  searchArticles: function(query){
+    console.log("searchArticles", query);
+    return axios.get("/api/articles/search", query);
+  },
+
+  // Deletes the article with the given id
   deleteArticle: function(id) {
     return axios.delete("/api/articles/" + id);
   },
-  // Saves a book to the database
+  // Saves article to the database
   saveArticle: function(articleData) {
-    return axios.post("/api/articles", articleData);
+  	console.log("In SaveArticle", articleData);
+    return axios.post("/api/articles/save", {
+                                             id: "4fd1b09a8eb7c8105d6d2108", 
+                                             key: "4fd1b09a8eb7c8105d6d2108", 
+                                             title: "Auburn Sees Value of Ties", 
+                                             url: "https://www.nytimes.com/1990/10/01/sports/auburn-sees-value-of-ties.html", 
+                                             date: "1990-10-01T00:00:00Z"
+                                           }
+                                           );
   }
 };

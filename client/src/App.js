@@ -7,7 +7,7 @@ import SearchResult from "./pages/SearchResult";
 
 const App = () => (
   <Router>
-    <div>
+    <div className="App">
       <NavBar />
       <Switch>
        <Route exact path="/" component={SearchForm} /> 
