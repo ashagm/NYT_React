@@ -7,12 +7,12 @@ const articlesController = require("../../controllers/articlesController");
 router.route("/")
   .get(articlesController.findAll)
 
-// router.route("/save")
-//   .post(articlesController.create);
+router.route("/save")
+  .post(articlesController.create);
 
-router.post("/save", (req, res) => {
-	console.log("******In Save*****", req.body);
-});  
+
+router.route("/saved")
+	.get(articlesController.findAll); 
 
 router
   .route("/:id")

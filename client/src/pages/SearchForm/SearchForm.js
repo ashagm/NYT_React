@@ -4,6 +4,7 @@ import {FormGroup, Panel, FormControl, Button, ControlLabel} from 'react-bootstr
 import { Link } from "react-router-dom";
 import { List, ListItem } from "../../components/List";
 import SaveBtn from "../../components/SaveBtn";
+import DeleteBtn from "../../components/DeleteBtn";
 
 class SearchForm extends Component{
 
@@ -11,7 +12,8 @@ class SearchForm extends Component{
 		searchTerm: "",
 		startYear: "",
 		endYear: "",
-		articles: []
+		articles: [],
+		savedArticles: []
 	};
 
 
@@ -31,7 +33,7 @@ class SearchForm extends Component{
 	        endYear: this.state.endYear
 	      })
 	        .then(res => {
-	        	console.log(res);
+	        	// console.log(res);
 				this.setState({ articles: res.data })
 	        	// var articlesArr = this.state.articles.concat(res.data.response.docs);
 				// this.setState({ articles: articlesArr })
@@ -43,12 +45,21 @@ class SearchForm extends Component{
 	        .catch(err => console.log(err));
 	}
 
-	  saveArticle = props => {
-	  	console.log("props", props);
-	    API.saveArticle(props)
-	      .then(res => console.log("saved", res))	      	
+	saveArticle = id => {
+	  	const articleById = this.state.articles.find((article) => article._id === id);
+	    API.saveArticle(
+	    	{	headline: articleById.headline.main,
+		        url: articleById.web_url,
+		    	date: articleById.pub_date
+		    }
+		   	)
+	      .then(res => 
+	      	{
+	      		console.log("saved", res);
+	      		this.setState({ savedArticles: res.data });
+	      	})	      	
 	      .catch(err => console.log(err));
-	  };
+	};
 
 	render(){
 		return (
@@ -100,15 +111,34 @@ class SearchForm extends Component{
 		                      </p>
 		                   </Link>
 		                   <SaveBtn 
-		                   onClick={() => this.saveArticle( 	
-		                   	{
-			                   	"id" : article._id,
-			                   	"key": article._id,
-			                   	"title" : article.headline.main,
-			                   	"url" :article.web_url,
-			                   	"date" : article.pub_date
-		                   	}
-		                   )} />
+		                   onClick={() => this.saveArticle( article._id)} />
+		                  </ListItem>
+		                ))}
+		              </List>
+		            ) : (
+		              <h3>No Results to Display</h3>
+		            )}
+           
+			    </Panel.Body>
+		  	</Panel>
+
+		  	<Panel>
+			    <Panel.Heading>
+			      <Panel.Title componentClass="h3">Saved Articles</Panel.Title>
+			    </Panel.Heading>			    
+
+			    <Panel.Body>
+			    	 {this.state.savedArticles.length ? (
+		               <List>
+		                {this.state.savedArticles.map(article => (
+		                  <ListItem key={article._id}>
+		                    <Link to={article.web_url} target="_blank">
+		                      <strong>
+		                        {article.headline.main} 
+		                      </strong>
+		                   </Link>
+		                   <DeleteBtn 
+		                   onClick={() => this.deleteArticle( article._id)} />
 		                  </ListItem>
 		                ))}
 		              </List>
