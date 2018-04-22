@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import {Panel} from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import API from "../../utils/API";
 import { List, ListItem } from "../../components/List";
+import API from "../../utils/API";
 import DeleteBtn from "../../components/DeleteBtn";
+ // import {FormGroup, Panel, FormControl, Button, ControlLabel} from 'react-bootstrap';
 
 class SavedResult extends Component {
 
@@ -11,15 +11,19 @@ class SavedResult extends Component {
 	    savedArticles: [],
 	};
 
-	componentDidMount() {
+	componentWillMount() {
+		console.log("component mounting....");
 		this.loadArticles();
 	}
 
 	loadArticles = () => {
+		console.log("loading articles....");
 		API.getSavedArticles()
-		.then(res =>
+		.then(res =>{
+			console.log("Got saved articles", res.data);
 			this.setState({ savedArticles: res.data })
-			)
+			console.log("Saved in state", this.state.savedArticles);
+			})
 		.catch(err => console.log(err));
 	};
 
@@ -34,33 +38,27 @@ class SavedResult extends Component {
 	};
 
 	render(){
+		console.log("rendering....");
 		return(
-		  	<Panel>
-			    <Panel.Heading>
-			      <Panel.Title componentClass="h3">Saved Articles</Panel.Title>
-			    </Panel.Heading>			    
-
-			    <Panel.Body>
-			    	 {this.state.savedArticles.length ? (
-		               <List>
-		                {this.state.savedArticles.map(article => (
-		                  <ListItem key={article._id}>
-		                    <Link to={article.web_url} target="_blank">
-		                      <strong>
-		                        {article.headline.main} 
-		                      </strong>
-		                   </Link>
-		                   <DeleteBtn 
-		                   onClick={() => this.deleteArticle( article._id)} />
-		                  </ListItem>
-		                ))}
-		              </List>
-		            ) : (
-		              <h3>No Results to Display</h3>
-		            )}
-   
-			    </Panel.Body>
-		  	</Panel>
-		);
+		  	<div>
+			<h3>Saved Articles {this.state.savedArticles.length}</h3>			    
+			{this.state.savedArticles.length ? (
+			   <List>
+				    {this.state.savedArticles.map(article => (
+				      <ListItem key={article._id}>
+				        <Link to={article.url} target="_blank">
+				          <strong>{article.headline}</strong> 
+				       	</Link>
+				       	<DeleteBtn onClick={() => this.deleteArticle( article._id)} />       
+				      </ListItem>
+				    ))}
+			  	</List>
+	            ) : (
+	              <h3>No Results to Display</h3>
+	            )}  
+		  	</div>
+			);
 	}
 }
+
+export default SavedResult;
