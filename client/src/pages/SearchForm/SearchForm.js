@@ -4,7 +4,7 @@ import {FormGroup, Panel, FormControl, Button, ControlLabel} from 'react-bootstr
 import { Link } from "react-router-dom";
 import { List, ListItem } from "../../components/List";
 import SaveBtn from "../../components/SaveBtn";
-import DeleteBtn from "../../components/DeleteBtn";
+// import DeleteBtn from "../../components/DeleteBtn";
 
 class SearchForm extends Component{
 
@@ -33,12 +33,7 @@ class SearchForm extends Component{
 	        endYear: this.state.endYear
 	      })
 	        .then(res => {
-	        	// console.log(res);
 				this.setState({ articles: res.data })
-	        	// var articlesArr = this.state.articles.concat(res.data.response.docs);
-				// this.setState({ articles: articlesArr })
-	        	// this.setState({ articles: res.data.response.docs })
-	        	// this.state.articles.push(res.data); 
 	        	console.log("Articles", this.state.articles);      	
 	        	}
         	)
@@ -97,9 +92,6 @@ class SearchForm extends Component{
 			    </Panel.Heading>			    
 
 			    <Panel.Body>
-			    	{/*<div>Article length {this.state.articles.length } <br/>
-			    	{this.state.articles.length ? 'articles present' : 'articles absent'}
-			    	</div> */}
 			    	 {this.state.articles.length ? (
 		               <List>
 		                {this.state.articles.map(article => (
@@ -114,33 +106,6 @@ class SearchForm extends Component{
 		                   </Link>
 		                   <SaveBtn 
 		                   onClick={() => this.saveArticle( article._id)} />
-		                  </ListItem>
-		                ))}
-		              </List>
-		            ) : (
-		              <h3>No Results to Display</h3>
-		            )}
-           
-			    </Panel.Body>
-		  	</Panel>
-
-		  	<Panel>
-			    <Panel.Heading>
-			      <Panel.Title componentClass="h3">Saved Articles</Panel.Title>
-			    </Panel.Heading>			    
-
-			    <Panel.Body>
-			    	 {this.state.savedArticles.length ? (
-		               <List>
-		                {this.state.savedArticles.map(article => (
-		                  <ListItem key={article._id}>
-		                    <Link to={article.web_url} target="_blank">
-		                      <strong>
-		                        {article.headline.main} 
-		                      </strong>
-		                   </Link>
-		                   <DeleteBtn 
-		                   onClick={() => this.deleteArticle( article._id)} />
 		                  </ListItem>
 		                ))}
 		              </List>

@@ -1,46 +1,22 @@
-import React, {Component} from "react";
-import API from "../../utils/API";
-import { Navbar } from 'react-bootstrap';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./NavBar.css";
 
-class NavBar extends Component {	
-
-	state = {
-		savedArticles: []
-	};		 
-  
-	findAll() {
-		 API.getSavedArticles()
-	      .then(res => { 
-	      	console.log("Fetched articles", res);
-	      	this.setState({ savedArticles: res.data }); 
-	      	console.log(this.state.savedArticles);
-	      	})	    	
-	      .catch(err => console.log(err));
-
-	}
-
-	render(){
-		return (
-			<div>
-		<Navbar>
-		  <Navbar.Header>
-		    <Navbar.Brand>NY Times Article Search</Navbar.Brand>    
-		  </Navbar.Header>
-		  <Navbar.Collapse>
-		    <Navbar.Text>
-		      <Navbar.Link href="#"></Navbar.Link>
-		    </Navbar.Text>
-		    <Navbar.Text pullRight>
-		    	<span className="saved-btn">
-					<button className="btn-primary" onClick={() => this.findAll()}>Saved Articles
-	    			</button>
-	  			</span>
-		    </Navbar.Text>
-		  </Navbar.Collapse>
-		</Navbar>
-		</div>
-	);
-	}
-};
+const NavBar = () => (
+	<nav className="navbar">
+		<ul>
+			<li>
+		  		<Link className="navbar-link" to="/">
+		    		New York Times 
+		    	</Link>
+		  	</li>
+		  	<li>
+	   			<Link className="navbar-link" to="/saved">
+	    			Saved Articles
+	    		</Link>
+	  		</li>
+	  	</ul>
+  </nav>
+);
 
 export default NavBar;
